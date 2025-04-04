@@ -1311,7 +1311,6 @@ public class Main {
 
 
 ----
-<br/>
 
 # Thread safe Collections
 
