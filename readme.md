@@ -1308,3 +1308,61 @@ public class Main {
     }
 }
 ```
+
+
+----
+<br/>
+
+# Thread safe Collections
+
+#### Lock free syncronized  variables
+
+* AtomicInteger
+* AtomicLong
+* AtomicBoolean
+* AtomicReference<>
+
+Supported methods:
+
+* get()
+* set()
+* compareAndSet()
+* getAndIncrement()
+* getAndDecrement()
+* getAndAdd()
+
+Note: Collections provide synchronized wrappers by default. These block the entire collection for operations because of which it's generally not recommended. 
+Examples:
+* Collection<Integer> syncCollection = Collections.synchronizedCollection(new ArrayList<>());
+* List<Integer> syncList = Collections.synchronizedList(new ArrayList<>());
+* Map<Integer, String> syncMap = Collections.synchronizedMap(new HashMap<>());
+* Set<Integer> syncSet = Collections.synchronizedSet(new HashSet<>());
+... etc
+
+#### Dynamic Array
+
+* Vector<>: This is legacy and every operation requires locking/unlocking so too much overhead
+* ConcurrentLinkedQueue<>: Preferred for high concurrency scenarios. Lock free internally. **Iterating has high overhead**
+* CopyOnWriteArrayList<>: Preferred when there are more reads than writes. Creates a new copy on write and replaces it with CAS. Better for iteration.
+
+#### Stack / Queue
+
+* Stack<>: Extends the Vector<> class so it's generally not used because of the same reasons.
+* LinkedBlockingQueue<>: Blocks writes if underlying queue is full and reads are blocked if queue is empty. Internal operations are atomic. Generally preferred for producer / consumer situations.
+* ConcurrentLinkedDeque<>: Lock free internally
+
+#### Priority Queue
+ 
+* PriorityBlockingQueue<>: Similar to BlockingQueue
+
+#### Hash Map / Hash Set
+
+* ConcurrentHashMap<>: Almost always the recommended implementation because it allows lock free reads and locked writes. Internal implementation has lock stripping and other optimizations.
+
+#### Tree Map / Tree Set
+
+* ConcurrentSkipListMap<>: Almost always the recommended implementation.
+
+#### Linked Hash Map / Set
+
+* No direct implementation 
